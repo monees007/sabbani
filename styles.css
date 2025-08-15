@@ -1,0 +1,50 @@
+:root {
+  --bg-primary: #fdfcfb;
+  --bg-secondary: #f8fafc;
+  --card-bg: #ffffff;
+  --text-primary: #4a4a4a;
+  --text-secondary: #6d5f53;
+  --text-accent: #8c7a6b;
+  --border-color: #e2e8f0;
+}
+
+html.dark {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2a2a2a;
+  --card-bg: #242424;
+  --text-primary: #e2e8f0;
+  --text-secondary: #d4c2b2;
+  --text-accent: #b89f8a;
+  --border-color: #4a4a4a;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link {
+  transition: color 0.3s, border-bottom-color 0.3s;
+  border-bottom: 2px solid transparent;
+  color: var(--text-secondary);
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--text-accent);
+  border-bottom-color: var(--text-accent);
+}
+.tab-button.active {
+  background-color: var(--text-accent);
+  color: var(--bg-primary);
+}
+.card-hover {
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -4px rgba(0, 0, 0, 0.07);
+}
+html.dark .card-hover:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
+}
