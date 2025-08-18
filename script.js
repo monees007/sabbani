@@ -26,12 +26,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const timelineContainer = document.getElementById('timeline-container');
 
   timelineData.forEach((item, index) => {
-    const isLeft = index % 2 === 0;
+    const isLeft = 1; //index % 2 === 0;
     const timelineItem = document.createElement('div');
     timelineItem.className = `flex items-center ${isLeft ? 'flex-row-reverse' : ''}`;
     timelineItem.innerHTML = `
                     <div class="w-5/12">
-                        <div class="p-6 rounded-2xl shadow-md card-hover" style="background-color: var(--card-bg); color: var(--text-primary); text-align: ${isLeft ? 'right' : 'left'};">
+                        <div class="p-6 rounded-2xl shadow-md card-hover" style="background-color: var(--card-bg); color: var(--text-primary); text-align: ${!isLeft ? 'right' : 'left'};">
                             <p class="font-bold text-lg" style="color: var(--text-accent);">${item.year}</p>
                             <p class="font-semibold">${item.title}</p>
                             <p class="text-sm italic" style="color: var(--text-secondary);">${item.institution}</p>
@@ -73,19 +73,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     `).join('');
 
       researchContentContainer.innerHTML = `
-                        <div class="flex items-center">
-                        <div class="px-5">
-                                <img src="${data.image}" alt="${data.title}" height="400" style="height: 400px; min-width: fit-content; max-width: 700px;" class="rounded-xl shadow-md mr-4">
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-bold mb-4" style="color: var(--text-secondary);">${data.title}</h3>
-                                <p class="mb-6" style="color: var(--text-primary);">${data.content}</p>
-                                <div class="flex flex-wrap gap-3">
-                                    ${linksHtml}
-                                </div>
-                            </div>
-
-                        </div>
+                   <div class="flex flex-col md:flex-row gap-3 items-center">
+    <img src="${data.image}" alt="${data.title}" class="rounded-xl">
+    <div>
+        <h3 class="text-2xl font-bold mb-4" style="color: var(--text-secondary);">${data.title}</h3>
+        <p class="mb-6" style="color: var(--text-primary);">${data.content}</p>
+        <div class="flex flex-wrap gap-3">
+            ${linksHtml}
+        </div>
+    </div>
+</div>
                     `;
     });
     researchTabsContainer.appendChild(button);
