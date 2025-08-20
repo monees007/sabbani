@@ -9,7 +9,8 @@ const researchData = {
   'POM Architecture': {
     title: 'The Architecture of Polyoxometalates (POMs)',
     content: 'Polyoxometalates (POMs) are a remarkable class of metal-oxide nanoclusters, often described as "molecular metal oxides." Our group uses these versatile, nano-sized building blocks—like the classic Keggin and Preyssler structures, and the giant spherical Keplerates—to construct complex, functional materials. By attaching other molecules to their surfaces, we create novel hybrid materials for photocatalysis, photochromism, and energy applications. This approach allows us to fine-tune material properties at the molecular level for specific tasks.',
-    image: 'https://chemistry-europe.onlinelibrary.wiley.com/cms/asset/e37a3cc0-3e36-4555-8c71-d9ed4a5f3c41/ejic202000889-toc-0001-m.jpg',
+    image: 'https://placehold.co/600x400/e8e8e8/6d5f53?text=POM+Structure',
+    cifUrl: 'assets/cif/4316469.cif',
     links: [
       { name: 'Proton Conductivity in Keplerates', url: 'https://doi.org/10.1002/ejic.202000889' },
       { name: 'Photochromism of Keplerates', url: 'https://doi.org/10.1039/D1DT00947A' }
@@ -19,6 +20,7 @@ const researchData = {
     title: 'Supramolecular Engineering of Hybrid Materials',
     content: 'We employ a "bottom-up" approach using molecular self-assembly to build sophisticated organic-inorganic hybrid materials. By combining POMs with designed organic molecules, we create materials with emergent properties. A key success is the fabrication of mesoporous "molecular sponges" where the inorganic POMs form a robust framework and organic groups line the pores, allowing for the selective capture of pollutants like iodine. We also engineer responsive metallogels that can switch between liquid and semi-solid states.',
     image: 'https://placehold.co/600x400/e8e8e8/6d5f53?text=Self-Assembly',
+    cifUrl: null,
     links: [
       { name: 'Mesoporous Materials for Guest Capture', url: 'https://doi.org/10.1039/D1MA01092A' }
     ]
@@ -26,7 +28,8 @@ const researchData = {
   'Dynamic Crystals': {
     title: 'Dynamic Crystals and Solid-State Reactivity',
     content: 'Our group specializes in studying chemical reactions that occur directly within the highly ordered environment of a crystal lattice. We investigate fascinating phenomena like single-crystal-to-single-crystal (SCSC) transformations, where a crystal can undergo a chemical reaction while maintaining its integrity. This allows us to observe chemistry in motion with atomic precision. We also explore complex in-situ ligand formation, where we orchestrate multi-step reactions within a single pot to create dynamic and responsive crystalline materials.',
-    image: 'https://placehold.co/600x400/e8e8e8/6d5f53?text=Crystal+Transformation',
+    image: null,
+    cifUrl: 'assets/cif/1529729.cif',
     links: [
       { name: 'Reversible SCSC Transformation', url: 'https://doi.org/10.1021/ja067572p' },
       { name: 'In-Situ Ligand Formation', url: 'https://doi.org/10.1021/acsomega.2c03795' }
@@ -36,6 +39,7 @@ const researchData = {
     title: 'Applications of Advanced Materials',
     content: 'A central goal is to translate our fundamental discoveries into tangible solutions. Our work targets key areas including light-responsive systems (photochromism for smart windows and data storage), clean energy materials (proton conductors for fuel cells), and environmental remediation. By embedding photo-active POMs in robust frameworks like MOFs, we create solid-state molecular switches. Our work on catalysis focuses on using POM-based hybrids to degrade hazardous organic pollutants in wastewater, contributing to a cleaner environment.',
     image: 'https://placehold.co/600x400/e8e8e8/6d5f53?text=Functional+Applications',
+    cifUrl: 'assets/cif/7208897.cif',
     links: [
       { name: 'Photocatalytic Dye Degradation', url: 'https://doi.org/10.1021/acs.inorgchem.5c01739' },
       { name: 'Antimicrobial Surfaces', url: 'https://doi.org/10.1016/j.micromeso.2010.06.020' }
@@ -135,7 +139,6 @@ const publicationsData = [
     doi: 'https://doi.org/10.1021/ja067572p'
   }
 ];
-
 const currentMembersData = [
   { name: 'Sangeeta', role: 'Ph.D. Scholar', period: '2020 - Present', email: 'sangeeta@example.com', focus: 'Exploring new synthetic routes for functional inorganic-organic hybrid materials.', avatar: 'assets/img/sangeeta.jpg' },
   { name: 'Ruchi', role: 'Ph.D. Scholar', period: '2021 - Present', email: 'ruchi@example.com', focus: 'Investigating the catalytic properties of novel polyoxometalate systems.', avatar: 'assets/img/ruchi.jpg' },
@@ -146,7 +149,8 @@ const currentMembersData = [
 ];
 
 const alumniData = [
-  { name: 'Kesar Tandekar', role: 'Ph.D. Scholar', period: '2018 - 2023', email: 'kesar.t@example.com', focus: 'Research on giant POM clusters (Keplerates), photochromism, and proton conductivity.', avatar: 'assets/img/kesar_tandekar.jpg' },
+  { name: 'Kesar Tandekar', role: 'Ph.D. Scholar', period: '2013 - 2019', email: 'kesar.t@example.com', focus: '', avatar: 'assets/img/kesar_tandekar.jpg' },
+  { name: 'Pragya Naulakha', role: 'Ph.D Scholar', period: '2014 - 2020', email: 'abhishek.b@example.com', focus: 'Completed M.Sc. dissertation project in the area of inorganic materials chemistry.', avatar: 'assets/img/abhishek_bartwal.jpg' },
   { name: 'Anjali Tripathi', role: 'Ph.D. Scholar', period: '2019 - 2024', email: 'anjali.t@example.com', focus: 'Synthesis of novel POM-based hybrid materials for photocatalysis and light-responsive applications.', avatar: 'assets/img/anjali_tripathi.jpg' },
   { name: 'Neeraj Kumar Mishra', role: 'Ph.D. Scholar', period: '2019 - 2024', email: 'neeraj.m@example.com', focus: 'Advanced coordination chemistry, crystallography, and in-situ ligand synthesis.', avatar: 'assets/img/neeraj_mishra.jpg' },
   { name: 'Raju Mekala', role: 'Ph.D.', period: '2015 - 2020', email: 'raju.m@example.com', focus: 'Contributed to the understanding of giant {Mo72Fe30} Keplerate clusters and their transformations.', avatar: 'assets/img/raju_mekala.jpg' },

@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
   const mobileMenuButton = document.getElementById('mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
@@ -26,39 +27,36 @@ document.addEventListener('DOMContentLoaded', function () {
   const timelineContainer = document.getElementById('timeline-container');
 
   timelineData.forEach((item, index) => {
-    const isLeft = 1; //index % 2 === 0;
     const timelineItem = document.createElement('div');
-    timelineItem.className = `flex items-center ${isLeft ? 'flex-row-reverse' : ''}`;
+    timelineItem.className = 'relative pl-8';
     timelineItem.innerHTML = `
-                    <div class="w-5/12">
-                        <div class="p-6 rounded-2xl shadow-md card-hover" style="background-color: var(--card-bg); color: var(--text-primary); text-align: ${!isLeft ? 'right' : 'left'};">
+                    <div class="absolute left-[-9px] w-4 h-4 rounded-full" style="background-color: var(--text-accent);top:40%;"></div>
+                    <div class="${index < timelineData.length - 1 ? 'pb-12' : ''}">
+                        <div class="p-6 rounded-2xl shadow-md card-hover" style="background-color: var(--card-bg); color: var(--text-primary);">
                             <p class="font-bold text-lg" style="color: var(--text-accent);">${item.year}</p>
                             <p class="font-semibold">${item.title}</p>
                             <p class="text-sm italic" style="color: var(--text-secondary);">${item.institution}</p>
                             <p class="text-sm mt-2" style="color: var(--text-secondary);">${item.description}</p>
                         </div>
                     </div>
-                    <div class="w-2/12 flex justify-center">
-                        <div class="w-7 h-7 rounded-full" style="background-color: var(--text-accent); z-index: 1"></div>
-                    </div>
-                    <div class="w-5/12"></div>
                 `;
     timelineContainer.appendChild(timelineItem);
   });
 
-  const researchTabsContainer = document.getElementById('research-tabs-container');
+  const researchSidebar = document.getElementById('research-sidebar');
   const researchContentContainer = document.getElementById('research-content-container');
 
   Object.keys(researchData).forEach((key, index) => {
     const button = document.createElement('button');
-    button.className = 'tab-button px-5 py-2.5 text-sm font-medium rounded-full transition-colors';
+    button.className = 'sidebar-link w-full text-left px-4 py-2.5 text-sm font-medium rounded-lg transition-colors';
     button.style.backgroundColor = 'var(--card-bg)';
     button.style.color = 'var(--text-accent)';
     button.textContent = key;
     button.dataset.tab = key;
     if (index === 0) button.classList.add('active');
+
     button.addEventListener('click', () => {
-      document.querySelectorAll('.tab-button').forEach(btn => {
+      document.querySelectorAll('.sidebar-link').forEach(btn => {
         btn.classList.remove('active');
         btn.style.backgroundColor = 'var(--card-bg)';
         btn.style.color = 'var(--text-accent)';
@@ -72,22 +70,90 @@ document.addEventListener('DOMContentLoaded', function () {
                         <a href="${link.url}" target="_blank" class="inline-block px-4 py-2 rounded-full text-sm hover:opacity-90 transition-opacity" style="background-color: var(--bg-secondary); color: var(--text-accent);">${link.name} &rarr;</a>
                     `).join('');
 
+      let visualHtml = '';
+      if (data.image) {
+        visualHtml += `<img src="${data.image}" alt="${data.title}" class="research-visual rounded-xl shadow-md w-full h-auto object-cover">`;
+      }
+      if (data.cifUrl) {
+        visualHtml += `<div id="mol-viewer" class="research-visual rounded-xl shadow-md w-full h-96 relative" style="${data.image ? 'display: none;' : ''}"></div>`;
+      }
+
+      let toggleButtonHtml = '';
+      if (data.image && data.cifUrl) {
+        toggleButtonHtml = `<button id="visual-toggle" class="mt-4 px-4 py-2 rounded-full text-sm" style="background-color: var(--bg-secondary); color: var(--text-accent);">Show Crystal Structure</button>`;
+      }
+
       researchContentContainer.innerHTML = `
-                   <div class="flex flex-col md:flex-row gap-3 items-center">
-    <img src="${data.image}" alt="${data.title}" class="rounded-xl">
-    <div>
-        <h3 class="text-2xl font-bold mb-4" style="color: var(--text-secondary);">${data.title}</h3>
-        <p class="mb-6" style="color: var(--text-primary);">${data.content}</p>
-        <div class="flex flex-wrap gap-3">
-            ${linksHtml}
-        </div>
-    </div>
-</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <h3 class="text-2xl font-bold mb-4" style="color: var(--text-secondary);">${data.title}</h3>
+                                <p class="mb-6" style="color: var(--text-primary);">${data.content}</p>
+                                <div class="flex flex-wrap gap-3">
+                                    ${linksHtml}
+                                </div>
+                            </div>
+                            <div class="relative">
+                                ${visualHtml}
+                                ${toggleButtonHtml}
+                            </div>
+                        </div>
                     `;
+
+      let viewerInitialized = false;
+      const molViewerDiv = document.getElementById('mol-viewer');
+
+      function create3DViewer(element, cifUrl) {
+        if (!element) return;
+        element.innerHTML = `<div class="absolute inset-0 flex items-center justify-center"><div class="animate-spin rounded-full h-16 w-16 border-b-2" style="border-color: var(--text-accent);"></div></div>`;
+
+        setTimeout(() => {
+          try {
+            let bgColor = document.documentElement.classList.contains('dark') ? '#242424' : '#ffffff';
+            let config = { backgroundColor: bgColor };
+            let viewer = $3Dmol.createViewer(element, config);
+            $.get(cifUrl, function(cifData) {
+              viewer.addModel(cifData, "cif");
+              viewer.setStyle({}, {stick: {}});
+              viewer.zoomTo();
+              viewer.render();
+              viewer.zoom(1.2, 1000);
+              viewerInitialized = true;
+            }).fail(function() {
+              element.innerHTML = '<p class="my-5 text-center text-red-500">Could not load crystal data.</p>';
+            });
+          } catch (e) {
+            element.innerHTML = '<p class="my-5 text-center text-red-500">Failed to initialize 3D viewer.</p>';
+          }
+        }, 100);
+      }
+
+      if (data.cifUrl && !data.image) {
+        create3DViewer(molViewerDiv, data.cifUrl);
+      }
+
+      if (data.image && data.cifUrl) {
+        const toggleButton = document.getElementById('visual-toggle');
+        const visuals = researchContentContainer.querySelectorAll('.research-visual');
+        let isImageVisible = true;
+        toggleButton.addEventListener('click', () => {
+          isImageVisible = !isImageVisible;
+          visuals.forEach(v => v.style.display = 'none');
+          if (isImageVisible) {
+            visuals[0].style.display = 'block';
+            toggleButton.textContent = 'Show Crystal Structure';
+          } else {
+            visuals[1].style.display = 'block';
+            if (!viewerInitialized) {
+              create3DViewer(document.getElementById('mol-viewer'), data.cifUrl);
+            }
+            toggleButton.textContent = 'Show Image';
+          }
+        });
+      }
     });
-    researchTabsContainer.appendChild(button);
+    researchSidebar.appendChild(button);
   });
-  document.querySelector('.tab-button').click();
+  document.querySelector('.sidebar-link').click();
 
   const publicationList = document.getElementById('publication-list');
   const publicationSearch = document.getElementById('publication-search');
@@ -116,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <p class="text-sm mt-1" style="color: var(--text-primary);">${pub.authors}</p>
                         <p class="text-sm mt-2" style="color: var(--text-primary);"><em>${pub.journalFullName}</em>, ${pub.year}</p>
                         <p class="text-sm mt-3" style="color: var(--text-primary);">${pub.description}</p>
-                        <a href="${pub.doi}" target="_blank" class="inline-block mt-3 text-sm font-semibold hover:underline" style="color: var(--text-accent);">Read More (DOI) &rarr;</a>
+                        <a href="${pub.doi}" target="_blank" class="inline-block mt-3 text-sm font-semibold hover:underline" style="color: var(--text-accent);">Read More</a>
                     `;
       publicationList.appendChild(pubCard);
     });
@@ -137,12 +203,10 @@ document.addEventListener('DOMContentLoaded', function () {
     memberCard.style.backgroundColor = 'var(--card-bg)';
 
     const initials = member.name.split(' ').map(n => n[0]).join('');
+    const fallbackAvatarHTML = `<div class='w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-4 flex-shrink-0' style='background-color: var(--bg-secondary);'><span class='text-3xl' style='color: var(--text-accent);'>${initials}</span></div>`;
 
     memberCard.innerHTML = `
-
-          <img src="${member.avatar}" alt="${member.name}" class="w-36 h-36 mx-auto rounded-full object-cover mb-4 flex-shrink-0" onerror="this.onerror=null; this.outerHTML = \`<div class='w-48 h-48 mx-auto rounded-full flex items-center justify-center mb-4' style='background-color: var(--bg-secondary);'><span class='text-6xl' style='color: var(--text-accent);'>${initials}</span></div>\`">
-
-
+                    <img src="${member.avatar}" alt="${member.name}" class="w-24 h-24 mx-auto rounded-full object-cover mb-4 flex-shrink-0" onerror="this.onerror=null; this.outerHTML = '${fallbackAvatarHTML.replace(/'/g, "\\'")}';">
                     <div class="flex-grow">
                         <h4 class="text-xl font-bold" style="color: var(--text-secondary);">${member.name}</h4>
                         <p class="mb-1" style="color: var(--text-accent);">${member.role}</p>

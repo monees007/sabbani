@@ -9,14 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Chosen Palette: Warm Neutral Harmony -->
-  <!-- Application Structure Plan: The application is structured as a single-page narrative journey, starting with a broad overview and allowing users to dive deeper into specific areas via a sticky navigation bar. The key sections are: Home (mission), About (interactive career timeline), Research (tabbed interface for themes and applications), Publications (chart and filterable list), Team (card layout), and Opportunities/Contact. This non-linear, thematic structure was chosen over the report's linear format to enhance user engagement and allow visitors (like prospective students or collaborators) to quickly access the information most relevant to them. The interactive elements, like the timeline and publication filter, are designed to turn passive reading into active exploration. -->
-  <!-- Visualization & Content Choices:
-      1. PI's Career: Report Info -> Dr. Sabbani's academic timeline. Goal -> Inform/Engage. Viz/Method -> Interactive horizontal timeline (HTML/CSS/JS). Interaction -> Clicking a milestone updates a central text box with details. Justification -> More engaging and spatially efficient than a static table.
-      2. Research Areas: Report Info -> Detailed descriptions of POMs, Supramolecular Engineering, etc. Goal -> Organize/Clarify. Viz/Method -> Tabbed content switcher (HTML/CSS/JS). Interaction -> Clicking tabs reveals corresponding content. Justification -> Prevents cognitive overload from a long wall of text; allows users to focus on one complex topic at a time.
-      3. Publication Output: Report Info -> List of publications with years. Goal -> Show trends/productivity. Viz/Method -> Bar Chart (Chart.js/Canvas). Interaction -> Hover for details. Justification -> Provides an immediate visual summary of the lab's growth and output.
-      4. Publication List: Report Info -> Comprehensive list of papers. Goal -> Organize/Search. Viz/Method -> Filterable list (HTML/JS). Interaction -> User types in a search box to dynamically filter the list by title, year, or journal. Justification -> Vastly improves usability over a static list, enabling users to find specific information quickly.
-  -->
-  <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://3Dmol.org/build/3Dmol-min.js"></script>
   <link rel="stylesheet" href="styles.css">
   <style>
 
@@ -26,16 +21,16 @@
 
 <header id="navbar" class="backdrop-blur-md sticky top-0 z-50 shadow-sm"  >
   <nav class="container mx-auto px-6 py-3 flex justify-between items-center max-w-7xl">
-    <a href="#home" class="text-xl font-bold" style="color: var(--text-secondary);">Supriya Sabbani</a>
-    <div class="hidden md:flex items-center space-x-8">
+    <a href="#home" class="text-2xl font-bold" style="color: var(--text-secondary);">Supriya Sabbani</a>
+    <div class="hidden text-xl font-bold md:flex items-center space-x-8">
       <a href="#about" class="nav-link pb-1">About</a>
       <a href="#research" class="nav-link pb-1">Research</a>
       <a href="#publications" class="nav-link pb-1">Publications</a>
       <a href="#team" class="nav-link pb-1">Team</a>
       <a href="#contact" class="nav-link pb-1">Opportunities</a>
       <button id="theme-toggle" class="p-2 rounded-full" style="color: var(--text-secondary);" onmouseover="this.style.backgroundColor='var(--border-color)'" onmouseout="this.style.backgroundColor='transparent'">
-        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM3.05 4.54a1 1 0 00-1.414 1.414l.707.707a1 1 0 101.414-1.414l-.707-.707zM16.95 15.46a1 1 0 01-1.414 0l-.707-.707a1 1 0 011.414-1.414l.707.707a1 1 0 010 1.414zM1 10a1 1 0 011-1h1a1 1 0 110 2H2a1 1 0 01-1-1zM16 10a1 1 0 011-1h1a1 1 0 110 2h-1a1 1 0 01-1-1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+        <svg id="theme-toggle-dark-icon" class="hidden w-7 h-7" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+        <svg id="theme-toggle-light-icon" class="hidden w-7 h-7" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM3.05 4.54a1 1 0 00-1.414 1.414l.707.707a1 1 0 101.414-1.414l-.707-.707zM16.95 15.46a1 1 0 01-1.414 0l-.707-.707a1 1 0 011.414-1.414l.707.707a1 1 0 010 1.414zM1 10a1 1 0 011-1h1a1 1 0 110 2H2a1 1 0 01-1-1zM16 10a1 1 0 011-1h1a1 1 0 110 2h-1a1 1 0 01-1-1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
       </button>
     </div>
     <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2" style="color: var(--text-accent); border-color: var(--text-accent);">
@@ -48,6 +43,7 @@
     <a href="#publications" class="block nav-link">Publications</a>
     <a href="#team" class="block nav-link">Team</a>
     <a href="#contact" class="block nav-link">Opportunities</a>
+
   </div>
 </header>
 
@@ -59,28 +55,28 @@
       <p class="max-w-3xl mx-auto text-base md:text-lg" style="color: var(--text-primary);">
         Our group is dedicated to the rational design, synthesis, and characterization of novel inorganic and hybrid materials. We bridge fundamental molecular design with real-world applications by creating smart materials with precisely controlled, dynamic, and responsive functionalities to address critical challenges in energy, environment, and technology.
       </p>
+      <a href="#about" class="mt-8 inline-block text-white px-6 py-3 rounded-full hover:opacity-90 transition-opacity font-semibold" style="background-color: var(--text-accent); color: var(--bg-primary);">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+        </svg>
+      </a>
     </div>
   </section>
 
   <section id="about" class="py-20" style="background-color: var(--bg-primary);">
-    <div class=" flex-row mx-auto px-6 max-w-7xl">
-      <div class="flex flex-col  items-center gap-12">
-        <div class="lg:w-1/3 text-center">
-          <img src="assets/img/supriya_sabbani.jpg" alt="Dr. Supriya Sabbani" class="w-48 h-48 mx-auto rounded-full object-cover mb-4" onerror="this.onerror=null; this.outerHTML = `<div class='w-48 h-48 mx-auto rounded-full flex items-center justify-center mb-4' style='background-color: var(--bg-secondary);'><span class='text-6xl' style='color: var(--text-accent);'>SS</span></div>`">
+    <div class="container mx-auto px-6 max-w-7xl">
+      <div class="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-24">
+        <div class="lg:w-2/5 flex flex-col mx-5 text-center items-center justify-center ">
+          <img src="assets/img/supriya_sabbani.jpg" alt="Dr. Supriya Sabbani" class="w-48 h-48 mx-auto lg:mx-0 rounded-full object-cover mb-4" onerror="this.onerror=null; this.outerHTML = `<div class='w-48 h-48 mx-auto lg:mx-0 rounded-full flex items-center justify-center mb-4' style='background-color: var(--bg-secondary);'><span class='text-6xl' style='color: var(--text-accent);'>SS</span></div>`">
           <h3 class="text-2xl font-bold" style="color: var(--text-secondary);">Dr. Supriya Sabbani</h3>
           <p style="color: var(--text-accent);">Assistant Professor, JNU</p>
-        </div>
-        <div class="lg:w-2/3">
-          <p class="mb-6" style="color: var(--text-primary);">
+          <p class="mt-4" style="color: var(--text-primary);">
             Dr. Supriya Sabbani's distinguished career is characterized by a powerful synergy between fundamental inorganic chemistry and applied materials science. Her unique intellectual foundation enables our research group to address complex scientific problems that span the full spectrum from molecular synthesis to functional device development. Her vision is to engineer smart, responsive materials by exploring the rich chemistry of polyoxometalates, coordination complexes, and hybrid frameworks.
           </p>
         </div>
-      </div>
-      <div class="flex-col mt-10">
-<!--        <h2 class="text-3xl font-bold text-center my-12" style="color: var(&#45;&#45;text-secondary);">Academic & Professional Timeline</h2>-->
-        <div class="relative">
-          <div class="absolute left-1/2 w-0.5 h-full" style="background-color: var(--border-color);"></div>
-          <div id="timeline-container" class="space-y-12">
+        <div class="lg:w-3/5">
+          <h4 class="text-2xl font-bold mb-8 text-center lg:text-left" style="color: var(--text-secondary);">Career Timeline</h4>
+          <div id="timeline-container" class="relative border-l-2" style="border-color: var(--border-color);">
           </div>
         </div>
       </div>
@@ -93,9 +89,15 @@
       <p class="text-center max-w-3xl mx-auto mb-12" style="color: var(--text-primary);">
         Our research programs are highly synergistic, where fundamental discoveries in one area directly inform and enable technological advancements in another. We move seamlessly from molecule to material to application, leveraging deep expertise in synthetic chemistry to create materials with targeted functionalities.
       </p>
-      <div id="research-tabs-container" class="flex flex-wrap justify-center gap-2 mb-8">
-      </div>
-      <div id="research-content-container" class="p-6 md:p-8 rounded-2xl shadow-md" style="background-color: var(--card-bg);">
+      <div class="flex flex-col md:flex-row gap-8 lg:gap-12">
+        <aside id="research-sidebar" class="md:w-1/4 flex-shrink-0">
+          <div class="space-y-2">
+            <!-- Sidebar links will be generated here -->
+          </div>
+        </aside>
+        <div id="research-content-container" class="md:w-3/4 p-6 md:p-8 rounded-2xl shadow-md" style="background-color: var(--card-bg);">
+          <!-- Content will be displayed here -->
+        </div>
       </div>
     </div>
   </section>
@@ -152,7 +154,7 @@
         <div class="p-8 rounded-2xl shadow-md card-hover" style="background-color: var(--bg-secondary);">
           <h3 class="text-2xl font-semibold mb-4" style="color: var(--text-secondary);">Get in Touch</h3>
           <p style="color: var(--text-primary);"><strong>Dr. Supriya Sabbani</strong></p>
-          <p style="color: var(--text-primary);">Lab No. 345</p>
+          <p style="color: var(--text-primary);">Lab # 345</p>
           <p style="color: var(--text-primary);">School of Physical Sciences</p>
           <p style="color: var(--text-primary);">Jawaharlal Nehru University</p>
           <p style="color: var(--text-primary);">New Delhi - 110067, India</p>
@@ -169,12 +171,14 @@
 
 <footer class="py-6" style="background-color: var(--bg-secondary); color: var(--text-primary);">
   <div class="container mx-auto px-6 text-center max-w-7xl">
-    <p></p>
+<!--    <p>&copy; 2024 Sabbani Research Laboratory, Jawaharlal Nehru University. All Rights Reserved.</p>-->
   </div>
 </footer>
 
 <script src="data.js"></script>
 <script src="script.js"></script>
+<script>
 
+</script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 :root {
   --bg-primary: #fdfcfb;
-  --bg-secondary: #e4e2e2;
+  --bg-secondary: #f8fafc;
   --card-bg: #ffffff;
   --text-primary: #4a4a4a;
   --text-secondary: #6d5f53;
@@ -34,7 +34,7 @@ body {
   color: var(--text-accent);
   border-bottom-color: var(--text-accent);
 }
-.tab-button.active {
+.sidebar-link.active {
   background-color: var(--text-accent);
   color: var(--bg-primary);
 }
